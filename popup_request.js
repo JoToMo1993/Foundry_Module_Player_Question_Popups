@@ -35,6 +35,14 @@ if (game.user.isGM) {
     <td><a id="options_add">Add</a></td>
   </tr>
   <tr>
+    <td><label for='players'>Players as options</label></td>
+    <td><input type="checkbox" id="players" /></td>
+  </tr>
+  <tr>
+    <td><label for='selfSelect'>Players may select themselves</label></td>
+    <td><input type="checkbox" id="selfSelect" /></td>
+  </tr>
+  <tr>
     <td><input id="option_0" value="" /></td>
     <td><a id="option0_remove">Remove</a></td>
   </tr>
@@ -104,11 +112,21 @@ function sendFormular(button) {
         formData[properKey] = val;
     }
 
+    let optionsType = 'free';
+    let options = [];
+    if (formData.players) {
+        options = game.users.filter(u => u.active).filter(u => !u.isGM).map(u => u.name);
+        if (!formData.selfSelect) {
+            optionsType = 'players';
+        }
+    } else {
+        options = Object.keys(formData).filter(key => key.startsWith('option_')).map(key => formData[key])
+    }
+
     const request = {
         title: formData.title,
         content: `<p>${formData.text}</p>`,
-        optionsType: 'free',
-        options: Object.keys(formData).filter(key => key.startsWith('option_')).map(key => formData[key]),
+        optionsType, options
     }
     sendPopup(request);
 }
