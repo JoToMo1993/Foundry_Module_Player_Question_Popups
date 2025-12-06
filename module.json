@@ -1,0 +1,21 @@
+{
+  "id": "PlayerQuestionPopups",
+  "title": "Player Question Popups",
+  "description": "A simple module created to send questions to your players for secret votes.",
+  "authors": [
+    {
+      "name": "JoToMo"
+    }
+  ],
+  "version": "0.0.1",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "scripts": [
+    "scripts/events.js"
+  ],
+  "socket": true,
+  "manifest": "https://raw.githubusercontent.com/JoToMo1993/Foundry_Module_Player_Question_Popups/refs/heads/main/module.json",
+  "download": "https://github.com/JoToMo1993/Foundry_Module_Player_Question_Popups/archive/refs/heads/main.zip"
+}
