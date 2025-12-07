@@ -20,7 +20,7 @@ Hooks.once("ready", () => {
 
 // --- FUNCTION: Open Popup for Players ---
 function openSelectionDialog(request) {
-    const buttons = getButtons(request.optionsType, request.options);
+    const buttons = getButtons(request.optionsType, request.options, request.content);
 
     new foundry.applications.api.DialogV2({
         window: {title: request.title},
@@ -29,7 +29,7 @@ function openSelectionDialog(request) {
     }).render({force: true});
 }
 
-function getButtons(optionType, options) {
+function getButtons(optionType, options, question) {
     // noinspection FallThroughInSwitchStatementJS
     switch (optionType) {
         case "players":
@@ -39,26 +39,26 @@ function getButtons(optionType, options) {
                 return {
                     action: o,
                     label: o,
-                    callback: () => handleSelection(o),
+                    callback: () => handleSelection(o, question),
                 }
             });
     }
 }
 
 // --- FUNCTION: Handle Button Click (player side) ---
-function handleSelection(option) {
+function handleSelection(option, question) {
     const playerUser = game.user;
 
     ui.notifications.info(`Du hast ${option} gewählt.`);
-    notifyGM(playerUser.name, option);
+    notifyGM(playerUser.name, option, question);
 }
 
 // --- FUNCTION: GM receives and posts message ---
-async function notifyGM(player, option) {
-    const content = `<span>${player} hat gewählt:</span><h1 style="margin: 0; padding: 0">${option}</h1>`;
+async function notifyGM(player, option, question) {
+    const content = `${question}<span>${player} hat gewählt:</span><h1 style="margin: 0; padding: 0">${option}</h1>`;
     ChatMessage.create({
         content,
         whisper: ChatMessage.getWhisperRecipients("GM"),
-        speaker: {alias: "Inspirationsauswahl"}
+        speaker: {alias: "Umfrage Antwort"}
     });
 }
