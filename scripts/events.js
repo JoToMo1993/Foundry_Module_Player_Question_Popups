@@ -15,11 +15,10 @@ Hooks.once("ready", () => {
 
 // --- FUNCTION: Open Popup for Players ---
 function openSelectionDialog(request) {
-    const buttons = getButtons(request.optionsType, request.options,
-        `<p>${request.title}<br />${request.content.replace(/<[^>]*>/g, '')}</p>`);
+    const buttons = getButtons(request.optionsType, request.options, `${request.content}`);
 
     new foundry.applications.api.DialogV2({
-        window: {title: request.title},
+        window: {title: 'Player Question Popup'},
         content: request.content,
         buttons,
     }).render({force: true});
