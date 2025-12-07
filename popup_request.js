@@ -30,10 +30,11 @@ if (game.user.isGM) {
     <td><label for='players'>Players as options</label></td>
     <td><input type="checkbox" id="players" /></td>
   </tr>
-  <tr class="players">
+  <tr class="players" style="visibility: collapse">
     <td><label for='selfSelect'>Players may select themselves</label></td>
     <td><input type="checkbox" id="selfSelect" /></td>
   </tr>
+  <tr></tr>
   <tr class="options">
     <td><span>Options</span></td>
     <td><a id="options_add">Add</a></td>
@@ -155,6 +156,14 @@ function sendInspiration() {
 }
 
 function sendPopup(request) {
+    if (request.content === '' || request.content === '<p></p>') {
+        ui.notifications.warn("Es wurde keine Frage gestellt.");
+        return;
+    }
+    if (request.options.length === 0 || request.options.filter(o => o.length !== 0).length === 0) {
+        ui.notifications.warn("Die Antwortoptionen waren leer.");
+        return;
+    }
     // GM sends socket message to all players
     game.socket.emit(SOCKET_NAME, {
         type: "openSelectionDialog",
