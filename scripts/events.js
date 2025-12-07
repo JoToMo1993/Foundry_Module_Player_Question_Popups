@@ -5,12 +5,7 @@ const SOCKET_NAME = "module.PlayerQuestionPopups";
 Hooks.once("ready", () => {
     if (!game.socket) return;
 
-    // Prevent duplicate handlers if the macro is run multiple times
-    if (game.modules.get("playerquestionpopup_flag")) return;
-    game.modules.set("playerquestionpopup_flag", true);
-
     console.log("Initialize PlayerQuestionPopups");
-
     game.socket.on(SOCKET_NAME, async (data) => {
         if (data.type === "openSelectionDialog" && !game.user.isGM) {
             openSelectionDialog(data.request);
@@ -21,7 +16,7 @@ Hooks.once("ready", () => {
 // --- FUNCTION: Open Popup for Players ---
 function openSelectionDialog(request) {
     const buttons = getButtons(request.optionsType, request.options,
-        `<span>${request.title}<br />${request.content.replace(/<[^>]*>/g, '')}</span>`);
+        `<p>${request.title}<br />${request.content.replace(/<[^>]*>/g, '')}</p>`);
 
     new foundry.applications.api.DialogV2({
         window: {title: request.title},
