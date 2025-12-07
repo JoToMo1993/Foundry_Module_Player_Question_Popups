@@ -20,7 +20,8 @@ Hooks.once("ready", () => {
 
 // --- FUNCTION: Open Popup for Players ---
 function openSelectionDialog(request) {
-    const buttons = getButtons(request.optionsType, request.options, request.content);
+    const buttons = getButtons(request.optionsType, request.options,
+        `<span>${request.title}<br />${request.content.replace(/<[^>]*>/g, '')}</span>`);
 
     new foundry.applications.api.DialogV2({
         window: {title: request.title},

@@ -31,16 +31,16 @@ if (game.user.isGM) {
     <td><textarea id="text" rows="5"></textarea></td>
   </tr>
   <tr>
-    <td><span>Options</span></td>
-    <td><a id="options_add">Add</a></td>
-  </tr>
-  <tr>
     <td><label for='players'>Players as options</label></td>
     <td><input type="checkbox" id="players" /></td>
   </tr>
   <tr>
     <td><label for='selfSelect'>Players may select themselves</label></td>
     <td><input type="checkbox" id="selfSelect" /></td>
+  </tr>
+  <tr>
+    <td><span>Options</span></td>
+    <td><a id="options_add">Add</a></td>
   </tr>
   <tr>
     <td><input id="option_0" value="" /></td>
