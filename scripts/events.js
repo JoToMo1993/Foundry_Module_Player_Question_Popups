@@ -13,7 +13,7 @@ Hooks.once("ready", () => {
 
     game.socket.on(SOCKET_NAME, async (data) => {
         if (data.type === "openSelectionDialog" && !game.user.isGM) {
-            openSelectionDialog(data);
+            openSelectionDialog(data.request);
         }
     });
 });
