@@ -7,10 +7,10 @@
       "name": "JoToMo"
     }
   ],
-  "version": "0.0.6",
+  "version": "0.0.7",
   "compatibility": {
     "minimum": "13",
-    "verified": "13"
+    "verified": "14"
   },
   "scripts": [
     "scripts/events.js"
