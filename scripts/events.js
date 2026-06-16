@@ -91,20 +91,20 @@ async function syncCompendiumMacros(pack) {
 
         if (existing) {
             // update
-            const currentVersion = existing.getFlag('jotomo_macros', 'version') ?? '';
+            const currentVersion = existing.getFlag('PlayerQuestionPopups', 'version') ?? '';
 
             if (currentVersion < macroConfig.version) {
                 // update
                 const content = {
                     command: await loadMacroSource(macroConfig.content),
                     flags: {
-                        'jotomo_macros': {
+                        'PlayerQuestionPopups': {
                             'version': macroConfig.version,
                         }
                     }
                 };
                 if (!!macroConfig.image) {
-                    content.img = `modules/jotomo_macros/assets/images/${macroConfig.image}`;
+                    content.img = `modules/PlayerQuestionPopups/assets/images/${macroConfig.image}`;
                 }
 
                 await existing.update(content);
@@ -116,16 +116,16 @@ async function syncCompendiumMacros(pack) {
                 type: 'script',
                 command: await loadMacroSource(macroConfig.content),
                 flags: {
-                    'jotomo_macros': {
+                    'PlayerQuestionPopups': {
                         'version': macroConfig.version,
                     }
                 }
             };
             if (!!macroConfig.image) {
-                content.img = `modules/jotomo_macros/assets/images/${macroConfig.image}`;
+                content.img = `modules/PlayerQuestionPopups/assets/images/${macroConfig.image}`;
             }
             await Macro.create(content, {
-                pack: 'jotomo_macros.jotomo-macros',
+                pack: 'PlayerQuestionPopups.player-question-macros',
             })
         }
     }
