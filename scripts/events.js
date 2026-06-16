@@ -133,7 +133,7 @@ async function syncCompendiumMacros(pack) {
 
 async function loadMacroSource(filename) {
     const response = await fetch(
-        `modules/jotomo_macros/scripts/macros/${filename}`
+        `modules/PlayerQuestionPopups/scripts/macros/${filename}`
     );
 
     if (!response.ok) {
