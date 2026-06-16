@@ -98,7 +98,7 @@ if (game.user.isGM) {
         };
     });
 } else {
-    ui.notifications.warn("Only the GM should run this macro.");
+    ui.notifications.warn("Only the GM should run this macros.");
 }
 
 function sendFormular(button) {
