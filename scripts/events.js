@@ -2,7 +2,7 @@
 const SOCKET_NAME = "module.PlayerQuestionPopups";
 
 // --- INITIALIZE SOCKET HANDLER ---
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
     if (!game.socket) return;
 
     console.log("Initialize PlayerQuestionPopups");
@@ -11,6 +11,8 @@ Hooks.once("ready", () => {
             openSelectionDialog(data.request);
         }
     });
+
+    await updateMacros();
 });
 
 // --- FUNCTION: Open Popup for Players ---
@@ -56,4 +58,87 @@ async function notifyGM(player, option, question) {
         whisper: ChatMessage.getWhisperRecipients("GM"),
         speaker: {alias: "Umfrage Antwort"}
     });
+}
+
+const MACROS_CONFIG = [
+    {
+        name: 'Inspiration / Player Choice',
+        version: '1.0.0',
+        image: 'player_choice.webp',
+        content: 'popup_request.js',
+    }
+]
+
+async function updateMacros() {
+    const pack = game.packs.get("PlayerQuestionPopups.player-question-macros");
+    await pack.configure({
+        locked: false
+    });
+
+    await syncCompendiumMacros(pack);
+
+    await pack.configure({
+        locked: true
+    });
+}
+
+async function syncCompendiumMacros(pack) {
+    const documents = await pack.getDocuments();
+    for (const macroConfig of MACROS_CONFIG) {
+        const existing = documents.find(
+            m => m.name === macroConfig.name
+        );
+
+        if (existing) {
+            // update
+            const currentVersion = existing.getFlag('jotomo_macros', 'version') ?? '';
+
+            if (currentVersion < macroConfig.version) {
+                // update
+                const content = {
+                    command: await loadMacroSource(macroConfig.content),
+                    flags: {
+                        'jotomo_macros': {
+                            'version': macroConfig.version,
+                        }
+                    }
+                };
+                if (!!macroConfig.image) {
+                    content.img = `modules/jotomo_macros/assets/images/${macroConfig.image}`;
+                }
+
+                await existing.update(content);
+            }
+        } else {
+            // create
+            const content = {
+                name: macroConfig.name,
+                type: 'script',
+                command: await loadMacroSource(macroConfig.content),
+                flags: {
+                    'jotomo_macros': {
+                        'version': macroConfig.version,
+                    }
+                }
+            };
+            if (!!macroConfig.image) {
+                content.img = `modules/jotomo_macros/assets/images/${macroConfig.image}`;
+            }
+            await Macro.create(content, {
+                pack: 'jotomo_macros.jotomo-macros',
+            })
+        }
+    }
+}
+
+async function loadMacroSource(filename) {
+    const response = await fetch(
+        `modules/jotomo_macros/scripts/macros/${filename}`
+    );
+
+    if (!response.ok) {
+        throw new Error(`Failed to load macro: ${filename}`);
+    }
+
+    return response.text();
 }

@@ -7,13 +7,26 @@
       "name": "JoToMo"
     }
   ],
-  "version": "0.0.7",
+  "version": "0.0.8",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
   },
   "scripts": [
     "scripts/events.js"
+  ],
+  "packs": [
+    {
+      "name": "player-question-macros",
+      "label": "Player Question Macros",
+      "path": "packs/player-question-macros",
+      "type": "Macro",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }
   ],
   "socket": true,
   "manifest": "https://raw.githubusercontent.com/JoToMo1993/Foundry_Module_Player_Question_Popups/refs/heads/main/module.json",
