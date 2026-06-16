@@ -60,7 +60,7 @@ async function notifyGM(player, option, question) {
     });
 }
 
-const MACROS_CONFIG = [
+const PLAYER_QUESTION_MACROS_CONFIG = [
     {
         name: 'Inspiration / Player Choice',
         version: '1.0.0',
@@ -84,7 +84,7 @@ async function updateMacros() {
 
 async function syncCompendiumMacros(pack) {
     const documents = await pack.getDocuments();
-    for (const macroConfig of MACROS_CONFIG) {
+    for (const macroConfig of PLAYER_QUESTION_MACROS_CONFIG) {
         const existing = documents.find(
             m => m.name === macroConfig.name
         );
