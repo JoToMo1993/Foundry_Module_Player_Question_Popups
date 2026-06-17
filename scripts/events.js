@@ -107,6 +107,7 @@ async function syncCompendiumMacros(folder) {
                     content.img = `modules/PlayerQuestionPopups/assets/images/${macroConfig.image}`;
                 }
 
+                console.log('Player Question', 'update macro', content);
                 await existing.update(content);
             }
         } else {
@@ -125,6 +126,7 @@ async function syncCompendiumMacros(folder) {
             if (!!macroConfig.image) {
                 content.img = `modules/PlayerQuestionPopups/assets/images/${macroConfig.image}`;
             }
+            console.log('Player Question', 'create macro', content);
             await Macro.create(content)
         }
     }
