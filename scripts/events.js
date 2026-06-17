@@ -70,23 +70,23 @@ const PLAYER_QUESTION_MACROS_CONFIG = [
 ]
 
 async function updateMacros() {
-    const pack = game.packs.get("PlayerQuestionPopups.player-question-macros");
-    await pack.configure({
-        locked: false
-    });
+    let folder = game.folders.find(
+        f => f.type === 'Macro' && f.name === 'Player Question Macros'
+    );
+    if (!folder) {
+        folder = await Folder.create({
+            name: "Player Question Macros",
+            type: "Macro"
+        });
+    }
 
-    await syncCompendiumMacros(pack);
-
-    await pack.configure({
-        locked: true
-    });
+    await syncCompendiumMacros(folder);
 }
 
-async function syncCompendiumMacros(pack) {
-    const documents = await pack.getDocuments();
+async function syncCompendiumMacros(folder) {
     for (const macroConfig of PLAYER_QUESTION_MACROS_CONFIG) {
-        const existing = documents.find(
-            m => m.name === macroConfig.name
+        const existing = game.macros.find(
+            m => m.name === macroConfig.name && m.folder?.id === folder.id
         );
 
         if (existing) {
@@ -114,6 +114,7 @@ async function syncCompendiumMacros(pack) {
             const content = {
                 name: macroConfig.name,
                 type: 'script',
+                folder: folder.id,
                 command: await loadMacroSource(macroConfig.content),
                 flags: {
                     'PlayerQuestionPopups': {
@@ -124,9 +125,7 @@ async function syncCompendiumMacros(pack) {
             if (!!macroConfig.image) {
                 content.img = `modules/PlayerQuestionPopups/assets/images/${macroConfig.image}`;
             }
-            await Macro.create(content, {
-                pack: 'PlayerQuestionPopups.player-question-macros',
-            })
+            await Macro.create(content)
         }
     }
 }
