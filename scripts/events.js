@@ -13,6 +13,7 @@ Hooks.once("ready", async () => {
     });
 
     await updateMacros();
+    console.log("Finished PlayerQuestionPopups");
 });
 
 // --- FUNCTION: Open Popup for Players ---
@@ -70,6 +71,7 @@ const PLAYER_QUESTION_MACROS_CONFIG = [
 ]
 
 async function updateMacros() {
+    console.log('Player Question', 'Start update macros');
     let folder = game.folders.find(
         f => f.type === 'Macro' && f.name === 'Player Question Macros'
     );
@@ -80,10 +82,6 @@ async function updateMacros() {
         });
     }
 
-    await syncCompendiumMacros(folder);
-}
-
-async function syncCompendiumMacros(folder) {
     for (const macroConfig of PLAYER_QUESTION_MACROS_CONFIG) {
         const existing = game.macros.find(
             m => m.name === macroConfig.name && m.folder?.id === folder.id
@@ -130,6 +128,7 @@ async function syncCompendiumMacros(folder) {
             await Macro.create(content)
         }
     }
+    console.log('Player Question', 'Finish update macros');
 }
 
 async function loadMacroSource(filename) {
