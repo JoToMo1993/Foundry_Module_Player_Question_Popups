@@ -12,7 +12,9 @@ Hooks.once("ready", async () => {
         }
     });
 
-    await updateMacros();
+    if (game.user.isGM) {
+        await updateMacros();
+    }
     console.log("Finished PlayerQuestionPopups");
 });
 
@@ -81,7 +83,7 @@ async function updateMacros() {
             type: "Macro"
         });
     }
-    
+
     async function loadMacroSource(filename) {
         const response = await fetch(
             `modules/PlayerQuestionPopups/scripts/macros/${filename}`
