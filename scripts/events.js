@@ -81,6 +81,18 @@ async function updateMacros() {
             type: "Macro"
         });
     }
+    
+    async function loadMacroSource(filename) {
+        const response = await fetch(
+            `modules/PlayerQuestionPopups/scripts/macros/${filename}`
+        );
+
+        if (!response.ok) {
+            throw new Error(`Failed to load macro: ${filename}`);
+        }
+
+        return response.text();
+    }
 
     for (const macroConfig of PLAYER_QUESTION_MACROS_CONFIG) {
         const existing = game.macros.find(
@@ -129,16 +141,4 @@ async function updateMacros() {
         }
     }
     console.log('Player Question', 'Finish update macros');
-}
-
-async function loadMacroSource(filename) {
-    const response = await fetch(
-        `modules/PlayerQuestionPopups/scripts/macros/${filename}`
-    );
-
-    if (!response.ok) {
-        throw new Error(`Failed to load macro: ${filename}`);
-    }
-
-    return response.text();
 }
